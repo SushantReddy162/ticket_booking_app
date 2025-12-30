@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class TrainService {
     private Train train;
     private List<Train> trainList;
-    private static final String TRAINS_PATH =  "D:/projects/IRCTC/app/src/main/java/org/example/entities/LocalDb";
+    private static final String TRAINS_PATH =  "D:/projects/IRCTC/app/src/main/java/org/example/entities/LocalDb/Trains.json";
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public TrainService(Train train)throws IOException{

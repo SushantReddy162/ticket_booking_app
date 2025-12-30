@@ -27,7 +27,7 @@ public class App {
             userBookingService = new UserBookingService();
         }
         catch(IOException e){
-            System.out.println("something went wrong");
+            e.printStackTrace();
             return;
         }
 

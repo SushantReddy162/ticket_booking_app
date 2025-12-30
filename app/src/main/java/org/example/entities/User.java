@@ -2,11 +2,17 @@ package org.example.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     private String name;
     private String password;
+    @JsonProperty("hashed_password")
     private String hashpassword;
+    @JsonProperty("tickets_booked")
     private List<Ticket> ticketsBooked;
     private String userid;
     // getters and setters 

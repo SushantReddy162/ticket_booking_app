@@ -15,8 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UserBookingService {
     private User user;
-    private List<User> userList;
-    private static final String USERS_PATH = "D:/projects/IRCTC/app/src/main/java/org/example/entities/LocalDb";
+    private List<User> userList ;
+    private static final String USERS_PATH = "app/src/main/java/org/example/entities/LocalDb/Users.json";
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public UserBookingService(User user) throws IOException
@@ -29,9 +29,9 @@ public class UserBookingService {
         loadUsers();
     }
 
-    private List<User> loadUsers() throws IOException{
+    private void loadUsers() throws IOException{
         File users = new File(USERS_PATH); 
-        return objectMapper.readValue(users, new TypeReference<List<User>>(){});
+        this.userList = objectMapper.readValue(users, new TypeReference<List<User>>(){});
     }
 
     public Boolean loginUser(){
@@ -60,7 +60,13 @@ public class UserBookingService {
     }
 
     public void fetchBooking(){
-        user.printTickets();
+        Optional<User> userfetched = userList.stream().filter(user1 -> {
+            return user1.getName().equalsIgnoreCase(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashpassword());
+        }).findFirst();
+        if(userfetched.isPresent())
+        {
+            user.printTickets();
+        }
     }
 
     public Boolean cancelBooking(String ticketId){
