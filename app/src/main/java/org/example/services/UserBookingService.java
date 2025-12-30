@@ -74,8 +74,37 @@ public class UserBookingService {
     }
 
     public List<Train> getTrains(String source , String destination){
-        TrainService trainService = new TrainService();
-        return trainService.searchTrains(source,destination);
+        try{
+            TrainService trainService = new TrainService();
+            return trainService.searchTrains(source,destination); 
+        }catch(IOException ex)
+        {
+            return null;
+        }
+    }
+
+    public List<List<Integer>> fetchSeats(Train train){
+        return train.getAvailableSeats();
     }
     
+    public Boolean bookTrainSeat(Train train, int row, int seat) {
+        try{
+            TrainService trainService = new TrainService();
+            List<List<Integer>> seats = train.getAvailableSeats();
+            if (row >= 0 && row < seats.size() && seat >= 0 && seat < seats.get(row).size()) {
+                if (seats.get(row).get(seat) == 0) {
+                    seats.get(row).set(seat, 1);
+                    train.setAvailableSeats(seats);
+                    trainService.addTrain(train);
+                    return true; // Booking successful
+                } else {
+                    return false; // Seat is already booked
+                }
+            } else {
+                return false; // Invalid row or seat index
+            }
+        }catch (IOException ex){
+            return Boolean.FALSE;
+        }
+    } 
 }
